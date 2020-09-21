@@ -9,7 +9,11 @@ public class GameManager : MonoBehaviour
 	
 	public float TiempoDeJuego = 60;
 	
-	public enum EstadoJuego{Calibrando, Jugando, Finalizado}
+	public enum EstadoJuego{
+		Calibrando,
+		Jugando,
+		Finalizado
+	}
 	public EstadoJuego EstAct = EstadoJuego.Calibrando;
 	
 	public PlayerInfo PlayerInfo1 = null;
@@ -55,33 +59,22 @@ public class GameManager : MonoBehaviour
 	public GameObject[] ObjsCarrera;
 	//de las descargas se encarga el controlador de descargas
 	
-	//para saber que el los ultimos 5 o 10 segs se cambie de tamaño la font del tiempo
-	//bool SeteadoNuevaFontSize = false;
-	//int TamOrigFont = 75;
-	//int TamNuevoFont = 75;
-	
-	/*
-	//para el testing
-	public float DistanciaRecorrida = 0;
-	public float TiempoTranscurrido = 0;
-	*/
-	
 	IList<int> users;
 	
 	//--------------------------------------------------------//
 	
 	void Awake()
 	{
-		GameManager.Instancia = this;
+		if(Instancia = null)
+        {
+			Instancia = this;
+        }
+
 	}
 	
 	void Start()
 	{
 		IniciarCalibracion();
-		
-		//para testing
-		//PosCamionesCarrera[0].x+=100;
-		//PosCamionesCarrera[1].x+=100;
 	}
 	
 	void Update()
@@ -156,17 +149,8 @@ public class GameManager : MonoBehaviour
 				FinalizarCarrera();
 			}
 			
-			/*
-			//para testing
-			TiempoTranscurrido += T.GetDT();
-			DistanciaRecorrida += (Player1.transform.position - PosCamionesCarrera[0]).magnitude;
-			*/
-			
 			if(ConteoRedresivo)
 			{
-				//se asegura de que los vehiculos se queden inmobiles
-				//Player1.rigidbody.velocity = Vector3.zero;
-				//Player2.rigidbody.velocity = Vector3.zero;
 				
 				ConteoParaInicion -= T.GetDT();
 				if(ConteoParaInicion < 0)
@@ -183,15 +167,7 @@ public class GameManager : MonoBehaviour
 				{
 					//termina el juego
 				}
-				/*
-				//otro tamaño
-				if(!SeteadoNuevaFontSize && TiempoDeJuego <= 5)
-				{
-					SeteadoNuevaFontSize = true;
-					GS_TiempoGUI.box.fontSize = TamNuevoFont;
-					GS_TiempoGUI.box.normal.textColor = Color.red;
-				}
-				*/
+				
 			}
 			
 			break;
@@ -272,18 +248,7 @@ public class GameManager : MonoBehaviour
 		Player2.CambiarACalibracion();
 	}
 		
-	/*
-	public void CambiarADescarga(Player pj)
-	{
-		//en la escena de la pista, activa la camara y las demas propiedades 
-		//de la escena de descarga
-	}
-	
-	public void CambiarAPista(Player pj)//de descarga ala pista de vuelta
-	{
-		//lo mismo pero al revez
-	}
-	*/	
+
 	
 	void CambiarATutorial()
 	{
@@ -368,21 +333,7 @@ public class GameManager : MonoBehaviour
 		Player2.ContrDesc.FinDelJuego();
 	}
 	
-	/*
-	public static ControladorDeDescarga GetContrDesc(int pjID)
-	{
-		switch (pjID)
-		{
-		case 1:
-			return ContrDesc1;
-			break;
-			
-		case 2:
-			return ContrDesc2;
-			break;
-		}
-		return null;
-	}*/
+	
 	
 	//se encarga de posicionar la camara derecha para el jugador que esta a la derecha y viseversa
 	void SetPosicion(PlayerInfo pjInf)
@@ -422,13 +373,7 @@ public class GameManager : MonoBehaviour
 			ObjsCarrera[i].SetActiveRecursively(true);
 		}
 		
-		/*
-		for(int i = 0; i < ObjsTuto1.Length; i++)
-		{
-			ObjsTuto1[i].SetActiveRecursively(false);
-			ObjsTuto2[i].SetActiveRecursively(false);
-		}
-		*/
+		
 		
 		
 		//desactivacion de la calibracion
