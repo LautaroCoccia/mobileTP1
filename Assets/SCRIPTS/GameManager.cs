@@ -1,21 +1,17 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-	//public static Player[] Jugadoers;
 	
 	public static GameManager Instancia;
 	
 	public float TiempoDeJuego = 60;
-	
-	public enum EstadoJuego{
-		Calibrando,
-		Jugando,
-		Finalizado
-	}
+
+	public enum EstadoJuego { Calibrando, Jugando, Finalizado }
 	public EstadoJuego EstAct = EstadoJuego.Calibrando;
-	
+
 	public PlayerInfo PlayerInfo1 = null;
 	public PlayerInfo PlayerInfo2 = null;
 	
@@ -33,7 +29,6 @@ public class GameManager : MonoBehaviour
 	bool ConteoRedresivo = true;
 	public Rect ConteoPosEsc;
 	public float ConteoParaInicion = 3;
-	public GUISkin GS_ConteoInicio;
 	
 	public Rect TiempoGUI = new Rect();
 	public GUISkin GS_TiempoGUI;
@@ -67,7 +62,7 @@ public class GameManager : MonoBehaviour
 	{
 		if(Instancia = null)
         {
-			Instancia = this;
+			GameManager.Instancia = this;
         }
 
 	}
@@ -80,10 +75,10 @@ public class GameManager : MonoBehaviour
 	void Update()
 	{
 		//REINICIAR
-		if(Input.GetKey(KeyCode.Mouse1) &&
-		   Input.GetKey(KeyCode.Keypad0))
+		if(Input.GetKey(KeyCode.R) )
 		{
-			Application.LoadLevel(Application.loadedLevel);
+
+			SceneManager.LoadScene("Main Menu");
 		}
 		
 		//CIERRA LA APLICACION
@@ -95,48 +90,47 @@ public class GameManager : MonoBehaviour
 		
 		switch (EstAct)
 		{
-		case EstadoJuego.Calibrando:
-			
-			//SKIP EL TUTORIAL
-			if(Input.GetKey(KeyCode.Mouse0) &&
-			   Input.GetKey(KeyCode.Keypad0))
-			{
-				if(PlayerInfo1 != null && PlayerInfo2 != null)
-				{
-					FinCalibracion(0);
-					FinCalibracion(1);
-					
-					FinTutorial(0);
-					FinTutorial(1);
-				}
-			}
+			case EstadoJuego.Calibrando:
 
-                if (PlayerInfo1.PJ == null && Input.GetKeyDown(KeyCode.W)) {
-                    PlayerInfo1 = new PlayerInfo(0, Player1);
-                    PlayerInfo1.LadoAct = Visualizacion.Lado.Izq;
-                    SetPosicion(PlayerInfo1);
-                }
-
-                if (PlayerInfo2.PJ == null && Input.GetKeyDown(KeyCode.UpArrow)) {
-                    PlayerInfo2 = new PlayerInfo(1, Player2);
-                    PlayerInfo2.LadoAct = Visualizacion.Lado.Der;
-                    SetPosicion(PlayerInfo2);
-                }
-			
-			//cuando los 2 pj terminaron los tutoriales empiesa la carrera
-			if(PlayerInfo1.PJ != null && PlayerInfo2.PJ != null)
-			{
-				if(PlayerInfo1.FinTuto2 && PlayerInfo2.FinTuto2)
+				//SKIP EL TUTORIAL
+				if (Input.GetKey(KeyCode.Mouse0) &&
+				   Input.GetKey(KeyCode.Keypad0))
 				{
-					EmpezarCarrera();
+					if (PlayerInfo1 != null && PlayerInfo2 != null)
+					{
+						FinCalibracion(0);
+						FinCalibracion(1);
+
+						FinTutorial(0);
+						FinTutorial(1);
+					}
 				}
-			}
-			
-			break;
-			
-			
-		case EstadoJuego.Jugando:
-			
+
+				if (PlayerInfo1.PJ == null && Input.GetKeyDown(KeyCode.W))
+				{
+					PlayerInfo1 = new PlayerInfo(0, Player1);
+					PlayerInfo1.LadoAct = Visualizacion.Lado.Izq;
+					SetPosicion(PlayerInfo1);
+				}
+
+				if (PlayerInfo2.PJ == null && Input.GetKeyDown(KeyCode.UpArrow))
+				{
+					PlayerInfo2 = new PlayerInfo(1, Player2);
+					PlayerInfo2.LadoAct = Visualizacion.Lado.Der;
+					SetPosicion(PlayerInfo2);
+				}
+
+				//cuando los 2 pj terminaron los tutoriales empiesa la carrera
+				if (PlayerInfo1.PJ != null && PlayerInfo2.PJ != null)
+				{
+					if (PlayerInfo1.FinTuto2 && PlayerInfo2.FinTuto2)
+					{
+						EmpezarCarrera();
+					}
+				}
+
+				break;
+			case EstadoJuego.Jugando:
 			//SKIP LA CARRERA
 			if(Input.GetKey(KeyCode.Mouse1) && 
 			   Input.GetKey(KeyCode.Keypad0))
@@ -165,7 +159,7 @@ public class GameManager : MonoBehaviour
 				TiempoDeJuego -= T.GetDT();
 				if(TiempoDeJuego <= 0)
 				{
-					//termina el juego
+						FinalizarCarrera();
 				}
 				
 			}
@@ -193,7 +187,6 @@ public class GameManager : MonoBehaviour
 		case EstadoJuego.Jugando:
 			if(ConteoRedresivo)
 			{
-				GUI.skin = GS_ConteoInicio;
 				
 				R.x = ConteoPosEsc.x * Screen.width/100;
 				R.y = ConteoPosEsc.y * Screen.height/100;
@@ -221,35 +214,31 @@ public class GameManager : MonoBehaviour
 		
 		GUI.skin = null;
 	}
-	
+
 	//----------------------------------------------------------//
-	
 	public void IniciarCalibracion()
 	{
-		for(int i = 0; i < ObjsCalibracion1.Length; i++)
+		for (int i = 0; i < ObjsCalibracion1.Length; i++)
 		{
 			ObjsCalibracion1[i].SetActiveRecursively(true);
 			ObjsCalibracion2[i].SetActiveRecursively(true);
 		}
-		
-		for(int i = 0; i < ObjsTuto2.Length; i++)
+
+		for (int i = 0; i < ObjsTuto2.Length; i++)
 		{
 			ObjsTuto2[i].SetActiveRecursively(false);
 			ObjsTuto1[i].SetActiveRecursively(false);
 		}
-		
-		for(int i = 0; i < ObjsCarrera.Length; i++)
+
+		for (int i = 0; i < ObjsCarrera.Length; i++)
 		{
 			ObjsCarrera[i].SetActiveRecursively(false);
 		}
-		
-		
+
+
 		Player1.CambiarACalibracion();
 		Player2.CambiarACalibracion();
 	}
-		
-
-	
 	void CambiarATutorial()
 	{
 		PlayerInfo1.FinCalibrado = true;

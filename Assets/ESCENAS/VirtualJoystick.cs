@@ -9,7 +9,9 @@ public class VirtualJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
     [SerializeField] RectTransform stick = null;
     [SerializeField] Image Background = null;
 
-    public float limit = 250f;
+    const float axisZero = 0;
+    public string player = "";
+    public float limit = 60;
     public void OnPointerDown(PointerEventData eventData)
     {
         Background.color = Color.red;
@@ -24,14 +26,21 @@ public class VirtualJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
         }
         stick.anchoredPosition = pos;
 
-        float x = pos.x / limit;
-        float y = pos.y / limit;
+        float x = (pos.x / limit);
+        float y = (pos.y / limit);
+
+        InstanceSetAxis(x, y);
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         Background.color = Color.gray;
         stick.anchoredPosition = Vector2.zero;
+        InstanceSetAxis(axisZero, axisZero);
+    }
+    void OnDisable()
+    {
+        InstanceSetAxis(axisZero, axisZero);
     }
     Vector2 ConverToLocal(PointerEventData eventData)
     {
@@ -41,5 +50,10 @@ public class VirtualJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
             eventData.enterEventCamera,
             out newPos);
         return newPos;
+    }
+    void InstanceSetAxis( float valueX, float valueY)
+    {
+        InputManager.Instance.SetAxis("Horizontal" + player, valueX);
+        InputManager.Instance.SetAxis("Vertical" + player, valueY);
     }
 }

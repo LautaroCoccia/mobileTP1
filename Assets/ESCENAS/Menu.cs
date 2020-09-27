@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class Menu : MonoBehaviour
 {
     public Button FirstButton;
+    public Image Creditos;
 
     public void Start()
     {
@@ -19,6 +20,7 @@ public class Menu : MonoBehaviour
     public void Multiplayer()
     {
         SceneManager.LoadScene("conduccion9");
+        
     }
     public void Settings()
     {
@@ -26,7 +28,7 @@ public class Menu : MonoBehaviour
     }
     public void Credits()
     {
-        
+
     }
     public void Quit()
     {

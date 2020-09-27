@@ -13,7 +13,7 @@ public class Visualizacion : MonoBehaviour
 	
 	ControlDireccion Direccion;
 	Player Pj;
-	
+
 	//las distintas camaras
 	public Camera CamCalibracion;
 	public Camera CamConduccion;
@@ -27,22 +27,12 @@ public class Visualizacion : MonoBehaviour
 	public GUISkin GS_Din;
 	
 	//EL VOLANTE
-	public Vector2[] VolantePos;
-	public float VolanteEsc = 0;
 	
-	public GUISkin GS_Volante;
 	
 	
 	//PARA EL INVENTARIO
 	public Vector2[] FondoPos;
 	public Vector2 FondoEsc = Vector2.zero;
-	
-	//public Vector2 SlotsEsc = Vector2.zero;
-	//public Vector2 SlotPrimPos = Vector2.zero;
-	//public Vector2 Separacion = Vector2.zero;
-	
-	//public int Fil = 0;
-	//public int Col = 0;
 	
 	public Texture2D TexturaVacia;//lo que aparece si no hay ninguna bolsa
 	public Texture2D TextFondo;
@@ -121,7 +111,6 @@ public class Visualizacion : MonoBehaviour
 			//contador de dinero
 			SetDinero();
 			//el volante
-			SetVolante();
 			break;
 			
 			
@@ -136,30 +125,27 @@ public class Visualizacion : MonoBehaviour
 			break;
 			
 			
-		case Player.Estados.EnCalibracion:
-			//SetCalibr();
-			break;
+		
 			
 			
 		case Player.Estados.EnTutorial:
 			SetInv3();
 			SetTuto();
-			SetVolante();
 			break;
 		}
 		
 		GUI.skin = null;
 	}
-	
+
 	//--------------------------------------------------------//
-	
+
+
 	public void CambiarACalibracion()
 	{
 		CamCalibracion.enabled = true;
 		CamConduccion.enabled = false;
 		CamDescarga.enabled = false;
 	}
-	
 	public void CambiarATutorial()
 	{
 		CamCalibracion.enabled = false;
@@ -204,7 +190,6 @@ public class Visualizacion : MonoBehaviour
 			break;
 		}
 		
-		CamCalibracion.rect = r;
 		CamConduccion.rect = r;
 		CamDescarga.rect = r;
 		
@@ -340,30 +325,7 @@ public class Visualizacion : MonoBehaviour
 	
 	
 	
-	void SetVolante()
-	{
-		GUI.skin = GS_Volante;
-		
-		R.width = VolanteEsc * Screen.width /100;
-		R.height = VolanteEsc * Screen.width /100;
-		R.x = VolantePos[0].x *Screen.width /100;
-		R.y = VolantePos[0].y *Screen.height /100;
-		
-		if(LadoAct == Visualizacion.Lado.Der)
-			R.x = VolantePos[1].x *Screen.width /100;
-			//R.x = (Screen.width) - ((Screen.width/2) - R.x);
-		
-		Vector2 centro;
-		centro.x = R.x + R.width/2;
-		centro.y = R.y + R.height/2;
-		float angulo = 100 * Direccion.GetGiro();
-		
-		GUIUtility.RotateAroundPivot(angulo, centro);
-				
-		GUI.Box(R,"");
-		
-		GUIUtility.RotateAroundPivot(angulo*(-1), centro);
-	}
+	
 	
 	void SetInv2()
 	{

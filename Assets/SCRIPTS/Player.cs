@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
 	int CantBolsAct = 0;
 	public string TagBolsas = "";
 	
-	public enum Estados{EnDescarga, EnConduccion, EnCalibracion, EnTutorial}
+	public enum Estados{  EnDescarga, EnConduccion, EnCalibracion, EnTutorial }
 	public Estados EstAct = Estados.EnConduccion;
 	
 	public bool EnConduccion = true;
@@ -86,20 +86,17 @@ public class Player : MonoBehaviour
 	{
 		return ContrDesc;
 	}
-	
 	public void CambiarACalibracion()
 	{
 		MiVisualizacion.CambiarACalibracion();
 		EstAct = Player.Estados.EnCalibracion;
 	}
-	
 	public void CambiarATutorial()
 	{
 		MiVisualizacion.CambiarATutorial();
 		EstAct = Player.Estados.EnTutorial;
 		ContrTuto.Iniciar();
 	}
-	
 	public void CambiarAConduccion()
 	{
 		MiVisualizacion.CambiarAConduccion();

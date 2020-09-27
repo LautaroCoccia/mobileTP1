@@ -34,8 +34,7 @@ public class TaxiComp : MonoBehaviour
 	RaycastHit RH;
 	
 	bool Respawneando = false;
-	
-	
+
 	enum Lado{Der, Izq}
 	
 	//-----------------------------------------------------------------//
@@ -152,9 +151,7 @@ public class TaxiComp : MonoBehaviour
 			//verifica, si no da cambia a izq
 			if(!VerificarCostado(lado))
 				lado = TaxiComp.Lado.Izq;
-		}
-		
-		
+		}		
 		if(lado == TaxiComp.Lado.Der)
 		{
 			Vector3 vaux = transform.localEulerAngles;

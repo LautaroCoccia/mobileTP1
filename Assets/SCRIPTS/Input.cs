@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using UnityEngine.EventSystems;
 
 public class InputManager
@@ -13,7 +12,8 @@ public class InputManager
     }
     Dictionary<string, float> axisValues = new Dictionary<string, float>()
     {
-        {"Horizontal", 0f},{"Vertical", 0f}
+        {"Horizontal", 0f},
+        {"Vertical", 0f}
     };
     public void SetAxis(string axis, float value)
     {
@@ -31,22 +31,6 @@ public class InputManager
     }
     public bool GetButton(string button)
     {
-
         return Input.GetButton(button);
     }
-
-    //void Start()
-    //{
-
-    //}
-
-    //// Update is called once per frame
-    //void Update()
-    //{
-    //    var touches = Input.touches;
-    //    foreach (var touch in touches)
-    //    {
-
-    //    }
-    //}
 }

@@ -25,19 +25,7 @@ public class ContrTutorial : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		/*
-		if(Iniciado)
-		{
-			if(Tempo < TiempTuto)
-			{
-				Tempo += T.GetDT();
-				if(Tempo >= TiempTuto)
-				{
-					Finalizar();
-				}
-			}
-		}
-		*/
+
 	}
 	
 	void OnTriggerEnter(Collider other)
